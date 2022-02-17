@@ -6,6 +6,8 @@ import { Layout, Typography } from 'antd';
 import Logo from './components/Logo';
 import OptionsForm from './components/OptionsForm';
 import ExampleCode from './components/ExampleCode';
+import { DEFAULT_SCHEMES } from './data/scheme';
+import { DEFAULT_ROTATIONS } from './data/rotations';
 
 const { Title } = Typography;
 
@@ -17,7 +19,7 @@ function App() {
 
   const optionsChanged = (newOptions: any) => {
     setType(newOptions.puzzle);
-    setOptions({
+    setOptions(removeUnecessaryOptions(newOptions.puzzle, {
       width: newOptions.width,
       height: newOptions.height,
       puzzle: {
@@ -32,7 +34,7 @@ function App() {
           z: newOptions.Z
         }]
       }
-    } as PNGVisualizerOptions)
+    } as PNGVisualizerOptions))
   }
 
   return (
@@ -45,13 +47,49 @@ function App() {
         <Sider width={350} theme="light" style={{ padding: 5 }}>
           <OptionsForm onApply={optionsChanged}></OptionsForm>
         </Sider>
-        <Content className="puzzle-preview">
+        <Content style={{ padding: '25px 25px' }} className="puzzle-preview">
           <PuzzleGenPNG type={type} options={options} />
-          <ExampleCode></ExampleCode>
+          <Content style={{ padding: '25px 0px' }}>
+            <ExampleCode type={type} options={options}></ExampleCode>
+          </Content>
         </Content>
       </Layout>
     </Layout>
   );
+}
+
+const removeUnecessaryOptions = (type: Type, options?: PNGVisualizerOptions): PNGVisualizerOptions => {
+  const displayOptions = {
+    ...JSON.parse(JSON.stringify(options))
+  }
+
+  if (DEFAULT_SCHEMES[type] === options?.puzzle?.scheme) {
+    delete displayOptions.puzzle?.scheme
+  }
+
+  if (Array.isArray(options?.puzzle?.rotations)
+    && options?.puzzle?.rotations.length == 1
+    && JSON.stringify(DEFAULT_ROTATIONS[type]) === JSON.stringify(options?.puzzle?.rotations[0])) {
+    delete displayOptions.puzzle?.rotations
+  }
+
+  if (!options?.puzzle?.alg) {
+    delete displayOptions.puzzle?.alg;
+  }
+
+  if (!options?.puzzle?.case) {
+    delete displayOptions.puzzle?.case;
+  }
+
+  if (!options?.puzzle?.stickerColors) {
+    delete displayOptions.puzzle?.stickerColors;
+  }
+
+  if (JSON.stringify(displayOptions.puzzle) == "{}") {
+    delete displayOptions.puzzle;
+  }
+
+  return displayOptions;
 }
 
 export default App;

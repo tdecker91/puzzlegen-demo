@@ -3,7 +3,7 @@ import { PNG, PNGVisualizerOptions, Type } from "sr-puzzlegen";
 import { Subject, interval } from "rxjs";
 import { debounce } from "rxjs/operators";
 
-type PuzzleGenProps = {
+export type PuzzleGenProps = {
   type: Type,
   options?: PNGVisualizerOptions
 }
@@ -56,7 +56,7 @@ class PuzzleGenPNG extends React.Component<PuzzleGenProps> {
 
   render() {
     return (
-      <div ref={this.puzzleRef}></div>
+      <div className="img-wrap" ref={this.puzzleRef}></div>
     )
   }
 
