@@ -10,11 +10,13 @@ import StickersForm from './StickersForm';
 import { StickerColors } from '../data/color';
 import { PUZZLE_FACES } from '../data/face';
 import { DEFAULT_ROTATIONS } from '../data/rotations';
+import { DEFAULT_PUZZLE_SIZES } from '../data/size';
 
 type Options = {
   width: number,
   height: number,
   puzzle: Type,
+  size: number,
   alg: string,
   case: string,
   scheme: string,
@@ -43,6 +45,7 @@ export default function OptionsForm(props: OptionsProps) {
   const [options, setOptions] = useState<Options>({
     width: 250,
     height: 250,
+    size: 3,
     puzzle: Type.CUBE,
     alg: '',
     case: '',
@@ -57,7 +60,7 @@ export default function OptionsForm(props: OptionsProps) {
 
   useEffect(() => {
     onClickApply();
-  }, [stickerColors, scheme, options])
+  }, [stickerColors, scheme, customMask, options])
 
   const onFormChange = (changes: any) => {
     let newOptions = {
@@ -121,16 +124,23 @@ export default function OptionsForm(props: OptionsProps) {
     form.setFieldsValue({
       X: DEFAULT_ROTATIONS[value].x,
       Y: DEFAULT_ROTATIONS[value].y,
-      Z: DEFAULT_ROTATIONS[value].z
+      Z: DEFAULT_ROTATIONS[value].z,
+      size: DEFAULT_PUZZLE_SIZES[value]
     });
 
     onFormChange({
       puzzle: value,
+      size: DEFAULT_PUZZLE_SIZES[value],
       X: DEFAULT_ROTATIONS[value].x,
       Y: DEFAULT_ROTATIONS[value].y,
       Z: DEFAULT_ROTATIONS[value].z
     })
   }
+
+  const shouldHideSize = options.puzzle == Type.SQUARE1
+    || options.puzzle == Type.SQUARE1_NET
+    || options.puzzle == Type.SKEWB
+    || options.puzzle == Type.SKEWB_NET;
 
   return (
     <>
@@ -142,6 +152,7 @@ export default function OptionsForm(props: OptionsProps) {
           width: options.width,
           height: options.height,
           puzzle: options.puzzle,
+          size: options.size,
           alg: options.alg,
           case: options.case,
           scheme: options.scheme,
@@ -164,6 +175,9 @@ export default function OptionsForm(props: OptionsProps) {
               <Select.Option value={(Type as any)[type]} key={type}>{type}</Select.Option>
             ))}
           </Select>
+        </Form.Item>
+        <Form.Item hidden={shouldHideSize} label="size" name="size">
+          <InputNumber />
         </Form.Item>
         <Form.Item label="alg" name="alg">
           <Input.TextArea />

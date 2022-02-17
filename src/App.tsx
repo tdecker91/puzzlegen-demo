@@ -8,6 +8,7 @@ import OptionsForm from './components/OptionsForm';
 import ExampleCode from './components/ExampleCode';
 import { DEFAULT_SCHEMES } from './data/scheme';
 import { DEFAULT_ROTATIONS } from './data/rotations';
+import { DEFAULT_PUZZLE_SIZES } from './data/size';
 
 const { Title } = Typography;
 
@@ -26,6 +27,7 @@ function App() {
         alg: newOptions.alg,
         case: newOptions.case,
         scheme: newOptions.scheme,
+        size: newOptions.size,
         mask: newOptions.mask,
         stickerColors: newOptions.stickerColors,
         rotations: [{
@@ -58,7 +60,7 @@ function App() {
   );
 }
 
-const removeUnecessaryOptions = (type: Type, options?: PNGVisualizerOptions): PNGVisualizerOptions => {
+const removeUnecessaryOptions = (type: Type, options?: any): PNGVisualizerOptions => {
   const displayOptions = {
     ...JSON.parse(JSON.stringify(options))
   }
@@ -73,6 +75,10 @@ const removeUnecessaryOptions = (type: Type, options?: PNGVisualizerOptions): PN
     delete displayOptions.puzzle?.rotations
   }
 
+  if (!options?.puzzle?.size) {
+    delete displayOptions.puzzle?.size;
+  }
+
   if (!options?.puzzle?.alg) {
     delete displayOptions.puzzle?.alg;
   }
@@ -83,6 +89,14 @@ const removeUnecessaryOptions = (type: Type, options?: PNGVisualizerOptions): PN
 
   if (!options?.puzzle?.stickerColors) {
     delete displayOptions.puzzle?.stickerColors;
+  }
+
+  if (type == Type.SQUARE1
+    || type == Type.SQUARE1_NET
+    || type == Type.SKEWB
+    || type == Type.SKEWB_NET
+    || displayOptions.puzzle?.size == DEFAULT_PUZZLE_SIZES[type]) {
+    delete displayOptions.puzzle?.size;
   }
 
   if (JSON.stringify(displayOptions.puzzle) == "{}") {
