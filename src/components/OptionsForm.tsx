@@ -1,5 +1,5 @@
 import { Form, Select, InputNumber, Input, Button, Divider } from 'antd';
-import { Type } from 'sr-puzzlegen';
+import { ArrowDefinition, Type } from 'sr-puzzlegen';
 import React, { useEffect, useState } from 'react';
 import SchemeForm from './SchemeForm';
 import SelectEditCustomItem from './select/SelectEditCustomItem';
@@ -7,6 +7,7 @@ import MaskForm from './MaskForm';
 import { DEFAULT_SCHEMES, Scheme } from '../data/scheme';
 import { DEFAULT_MASK, getMasks, Mask } from '../data/mask';
 import StickersForm from './StickersForm';
+import ArrowsForm from './ArrowsForm';
 import { StickerColors } from '../data/color';
 import { PUZZLE_FACES } from '../data/face';
 import { DEFAULT_ROTATIONS } from '../data/rotations';
@@ -22,6 +23,7 @@ type Options = {
   scheme: string,
   mask?: Mask,
   stickerColors?: StickerColors,
+  arrows?: ArrowDefinition[],
   X: number,
   Y: number,
   Z: number
@@ -38,9 +40,11 @@ export default function OptionsForm(props: OptionsProps) {
   const [showSchemeForm, setShowSchemeForm] = useState(false);
   const [showMaskForm, setShowMaskForm] = useState(false);
   const [showStickersForm, setShowStickersForm] = useState(false);
+  const [showArrowsForm, setShowArrowsForm] = useState(false);
   const [scheme, setScheme] = useState<Scheme>(DEFAULT_SCHEMES[Type.CUBE]);
   const [customMask, setCustomMask] = useState<Mask>(DEFAULT_MASK[Type.CUBE]);
   const [stickerColors, setStickerColors] = useState<StickerColors>(puzzleFaceColors);
+  const [arrows, setArrows] = useState<ArrowDefinition[]>([]);
 
   const [options, setOptions] = useState<Options>({
     width: 250,
@@ -50,6 +54,7 @@ export default function OptionsForm(props: OptionsProps) {
     alg: '',
     case: '',
     scheme: JSON.stringify(scheme, null, 2),
+    arrows: arrows,
     X: DEFAULT_ROTATIONS[Type.CUBE].x,
     Y: DEFAULT_ROTATIONS[Type.CUBE].y,
     Z: DEFAULT_ROTATIONS[Type.CUBE].z
@@ -60,7 +65,7 @@ export default function OptionsForm(props: OptionsProps) {
 
   useEffect(() => {
     onClickApply();
-  }, [stickerColors, scheme, customMask, options])
+  }, [stickerColors, scheme, customMask, arrows, options])
 
   const onFormChange = (changes: any) => {
     let newOptions = {
@@ -96,6 +101,11 @@ export default function OptionsForm(props: OptionsProps) {
     setShowStickersForm(false);
   }
 
+  const onSaveArrows = (arrows: ArrowDefinition[]) => {
+    setArrows(arrows);
+    setShowArrowsForm(false);
+  }
+
   const onClickApply = () => {
     const trimmedColors: any = {}
     Object.keys(stickerColors).forEach(face => {
@@ -113,7 +123,8 @@ export default function OptionsForm(props: OptionsProps) {
       ...options,
       scheme,
       stickerColors: Object.keys(trimmedColors).length > 0 ? trimmedColors : null,
-      mask: maskValue
+      mask: maskValue,
+      arrows
     });
   }
 
@@ -210,6 +221,7 @@ export default function OptionsForm(props: OptionsProps) {
         <Form.Item wrapperCol={{ offset: 8 }}>
           <Button onClick={() => setShowSchemeForm(true)}>Set Scheme</Button>
           <Button onClick={() => setShowStickersForm(true)}>Set Stickers</Button>
+          <Button onClick={() => setShowArrowsForm(true)}>Set Arrows</Button>
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8 }}>
           <Button type="primary" onClick={onClickApply}>Apply</Button>
@@ -231,6 +243,13 @@ export default function OptionsForm(props: OptionsProps) {
         onOk={(colors) => onSaveColors(colors)}
         onCancel={() => setShowStickersForm(false)}
         stickerColors={stickerColors} /> : null}
+      {showArrowsForm ? <ArrowsForm
+        faces={PUZZLE_FACES[options.puzzle]}
+        arrows={arrows}
+        visible={showArrowsForm}
+        onOk={(arrows) => onSaveArrows(arrows)}
+        onCancel={() => setShowArrowsForm(false)}
+      /> : null}
 
     </>
   )

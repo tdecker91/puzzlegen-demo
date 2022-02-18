@@ -1,8 +1,6 @@
 import React from "react"
 import { CopyBlock, vs2015 } from "react-code-blocks"
 import { PNGVisualizerOptions, Type } from "sr-puzzlegen";
-import { DEFAULT_ROTATIONS } from "../data/rotations";
-import { DEFAULT_SCHEMES } from "../data/scheme";
 import { PuzzleGenProps } from "./PuzzleGenPNG"
 
 /**
@@ -30,7 +28,7 @@ const makePuzzleGenCode = (type: Type, options?: PNGVisualizerOptions) => `impor
 let type = "${type}";
 let options = ${prettyPrintArray(options)};
 
-PNG("#div", type, options);
+PNG("#puzzle", type, options);
 `;
 
 /**

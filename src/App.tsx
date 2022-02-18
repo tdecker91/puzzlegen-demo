@@ -21,8 +21,8 @@ function App() {
   const optionsChanged = (newOptions: any) => {
     setType(newOptions.puzzle);
     setOptions(removeUnecessaryOptions(newOptions.puzzle, {
-      width: newOptions.width,
-      height: newOptions.height,
+      width: newOptions.width || 0,
+      height: newOptions.height || 0,
       puzzle: {
         alg: newOptions.alg,
         case: newOptions.case,
@@ -34,7 +34,8 @@ function App() {
           x: newOptions.X,
           y: newOptions.Y,
           z: newOptions.Z
-        }]
+        }],
+        arrows: newOptions.arrows
       }
     } as PNGVisualizerOptions))
   }
@@ -97,6 +98,10 @@ const removeUnecessaryOptions = (type: Type, options?: any): PNGVisualizerOption
     || type == Type.SKEWB_NET
     || displayOptions.puzzle?.size == DEFAULT_PUZZLE_SIZES[type]) {
     delete displayOptions.puzzle?.size;
+  }
+
+  if (!options?.puzzle?.arrows || options?.puzzle?.arrows.length === 0) {
+    delete displayOptions.puzzle?.arrows;
   }
 
   if (JSON.stringify(displayOptions.puzzle) == "{}") {

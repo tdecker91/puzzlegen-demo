@@ -56,7 +56,7 @@ class PuzzleGenPNG extends React.Component<PuzzleGenProps> {
 
   render() {
     return (
-      <div className="img-wrap" ref={this.puzzleRef}></div>
+      <div style={{ minHeight: this.props.options?.height || 0 }} className="img-wrap" ref={this.puzzleRef}></div>
     )
   }
 
