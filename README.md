@@ -1,4 +1,5 @@
 # PuzzleGen Demonstration
+See the app in action [HERE](https://tdecker91.github.io/puzzlegen-demo/)
 
 ## Available Scripts
 
