@@ -1,26 +1,51 @@
 import './App.css';
 import PuzzleGenPNG from './components/PuzzleGenPNG';
 import { Type, PNGVisualizerOptions } from 'sr-puzzlegen';
-import { useState } from 'react';
-import { Layout, Typography } from 'antd';
+import { useEffect, useState } from 'react';
+import { Layout, Typography, Drawer, Button } from 'antd';
 import Logo from './components/Logo';
 import OptionsForm from './components/OptionsForm';
 import ExampleCode from './components/ExampleCode';
 import { DEFAULT_SCHEMES } from './data/scheme';
 import { DEFAULT_ROTATIONS } from './data/rotations';
 import { DEFAULT_PUZZLE_SIZES } from './data/size';
+import { MenuOutlined } from "@ant-design/icons";
+import { DEFAULT_MASK } from './data/mask';
 
 const { Title } = Typography;
 
 const { Header, Content, Sider } = Layout;
 
+const defaultOptions: PNGVisualizerOptions = {
+  width: 250,
+  height: 250,
+  puzzle: {
+    alg: '',
+    case: '',
+    size: 3,
+    scheme: DEFAULT_SCHEMES[Type.CUBE],
+    mask: DEFAULT_MASK[Type.CUBE],
+    arrows: [],
+    rotations: [{
+      x: DEFAULT_ROTATIONS[Type.CUBE].x,
+      y: DEFAULT_ROTATIONS[Type.CUBE].y,
+      z: DEFAULT_ROTATIONS[Type.CUBE].z
+    }]
+  }
+} as any;
+
 function App() {
   const [type, setType] = useState(Type.CUBE);
-  const [options, setOptions] = useState<PNGVisualizerOptions>({ width: 250, height: 250 });
+  const [formValues, setFormValues] = useState<PNGVisualizerOptions>(defaultOptions);
+  const [options, setOptions] = useState<PNGVisualizerOptions>(defaultOptions);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [width, setWidth] = useState(window.innerWidth);
+
+  // width to go to mobile view
+  const breakpoint = 620;
 
   const optionsChanged = (newOptions: any) => {
-    setType(newOptions.puzzle);
-    setOptions(removeUnecessaryOptions(newOptions.puzzle, {
+    const values = {
       width: newOptions.width || 0,
       height: newOptions.height || 0,
       puzzle: {
@@ -37,19 +62,52 @@ function App() {
         }],
         arrows: newOptions.arrows
       }
-    } as PNGVisualizerOptions))
+    }
+    setType(newOptions.puzzle);
+    setFormValues(values);
+    setOptions(removeUnecessaryOptions(newOptions.puzzle, values as PNGVisualizerOptions));
   }
+
+  const optionsForm = (
+    <OptionsForm onApply={optionsChanged} initialValues={formValues} initialType={type}></OptionsForm>
+  )
+
+  const drawer = (
+    <Drawer
+      placement="left"
+      visible={drawerOpen}
+      getContainer={false}
+      style={{ position: 'absolute' }}
+      onClose={() => setDrawerOpen(false)}
+    >
+      {optionsForm}
+    </Drawer>
+  );
+
+  const sider = (
+    <Sider width={350} theme="light" style={{ padding: 5 }}>
+      {optionsForm}
+    </Sider>
+  )
+
+  useEffect(() => {
+    window.addEventListener("resize", () => setWidth(window.innerWidth));
+  }, []);
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Header style={{ padding: 20 }}>
+        <Button
+          onClick={() => setDrawerOpen(!drawerOpen)}
+          icon={<MenuOutlined />}
+          ghost
+          hidden={width >= breakpoint}
+        />
         <Logo></Logo>
-        <Title>PuzzleGen Demo App</Title>
+        <Title>PuzzleGen</Title>
       </Header>
-      <Layout>
-        <Sider width={350} theme="light" style={{ padding: 5 }}>
-          <OptionsForm onApply={optionsChanged}></OptionsForm>
-        </Sider>
+      <Layout style={{ position: "relative" }}>
+        {width < breakpoint ? drawer : sider}
         <Content style={{ padding: '25px 25px' }} className="puzzle-preview">
           <PuzzleGenPNG type={type} options={options} />
           <Content style={{ padding: '25px 0px' }}>

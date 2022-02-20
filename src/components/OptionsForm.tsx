@@ -30,34 +30,34 @@ type Options = {
 }
 
 export type OptionsProps = {
-  onApply: (options: any) => void
+  initialValues: any;
+  initialType: Type;
+  onApply: (options: any) => void;
 }
 
 export default function OptionsForm(props: OptionsProps) {
-
-  const puzzleFaceColors = PUZZLE_FACES[Type.CUBE].reduce((prev, curr) => ({ ...prev, [curr]: [] }), {})
-
+  const puzzleFaceColors = PUZZLE_FACES[props.initialType].reduce((prev, curr) => ({ ...prev, [curr]: [] }), {})
   const [showSchemeForm, setShowSchemeForm] = useState(false);
   const [showMaskForm, setShowMaskForm] = useState(false);
   const [showStickersForm, setShowStickersForm] = useState(false);
   const [showArrowsForm, setShowArrowsForm] = useState(false);
-  const [scheme, setScheme] = useState<Scheme>(DEFAULT_SCHEMES[Type.CUBE]);
-  const [customMask, setCustomMask] = useState<Mask>(DEFAULT_MASK[Type.CUBE]);
+  const [scheme, setScheme] = useState<Scheme>(props.initialValues?.puzzle?.scheme);
+  const [customMask, setCustomMask] = useState<Mask>(props.initialValues?.puzzle?.mask);
   const [stickerColors, setStickerColors] = useState<StickerColors>(puzzleFaceColors);
-  const [arrows, setArrows] = useState<ArrowDefinition[]>([]);
+  const [arrows, setArrows] = useState<ArrowDefinition[]>(props.initialValues?.puzzle?.arrows);
 
   const [options, setOptions] = useState<Options>({
-    width: 250,
-    height: 250,
-    size: 3,
-    puzzle: Type.CUBE,
-    alg: '',
-    case: '',
+    width: props.initialValues.width || 250,
+    height: props.initialValues.height || 250,
+    size: props.initialValues.puzzle?.size || 3,
+    puzzle: props.initialType || Type.CUBE,
+    alg: props.initialValues.puzzle?.alg || '',
+    case: props.initialValues.puzzle?.case || '',
     scheme: JSON.stringify(scheme, null, 2),
     arrows: arrows,
-    X: DEFAULT_ROTATIONS[Type.CUBE].x,
-    Y: DEFAULT_ROTATIONS[Type.CUBE].y,
-    Z: DEFAULT_ROTATIONS[Type.CUBE].z
+    X: props.initialValues.puzzle?.rotations[0]?.x || DEFAULT_ROTATIONS[Type.CUBE].x,
+    Y: props.initialValues.puzzle?.rotations[0]?.y || DEFAULT_ROTATIONS[Type.CUBE].y,
+    Z: props.initialValues.puzzle?.rotations[0]?.z || DEFAULT_ROTATIONS[Type.CUBE].z
   })
 
   const [form] = Form.useForm();
@@ -157,7 +157,7 @@ export default function OptionsForm(props: OptionsProps) {
     <>
       <Form
         form={form}
-        labelCol={{ span: 8 }}
+        labelCol={{ span: 5 }}
         wrapperCol={{ span: 17 }}
         initialValues={{
           width: options.width,
@@ -218,13 +218,10 @@ export default function OptionsForm(props: OptionsProps) {
         <Form.Item label="Z" name="Z">
           <InputNumber />
         </Form.Item>
-        <Form.Item wrapperCol={{ offset: 8 }}>
+        <Form.Item wrapperCol={{ offset: 5 }}>
           <Button onClick={() => setShowSchemeForm(true)}>Set Scheme</Button>
           <Button onClick={() => setShowStickersForm(true)}>Set Stickers</Button>
           <Button onClick={() => setShowArrowsForm(true)}>Set Arrows</Button>
-        </Form.Item>
-        <Form.Item wrapperCol={{ offset: 8 }}>
-          <Button type="primary" onClick={onClickApply}>Apply</Button>
         </Form.Item>
       </Form>
       {showSchemeForm ? <SchemeForm
