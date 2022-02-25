@@ -19,6 +19,7 @@ const { Header, Content, Sider } = Layout;
 const defaultOptions: PNGVisualizerOptions = {
   width: 250,
   height: 250,
+  stroke: .02,
   puzzle: {
     alg: '',
     case: '',
@@ -48,6 +49,7 @@ function App() {
     const values = {
       width: newOptions.width || 0,
       height: newOptions.height || 0,
+      strokeWidth: !Number.isNaN(newOptions.stroke) ? newOptions.stroke : .02,
       puzzle: {
         alg: newOptions.alg,
         case: newOptions.case,
@@ -76,7 +78,6 @@ function App() {
     <Drawer
       placement="left"
       visible={drawerOpen}
-      getContainer={false}
       style={{ position: 'absolute' }}
       onClose={() => setDrawerOpen(false)}
     >
@@ -106,7 +107,7 @@ function App() {
         <Logo></Logo>
         <Title>PuzzleGen</Title>
       </Header>
-      <Layout style={{ position: "relative" }}>
+      <Layout>
         {width < breakpoint ? drawer : sider}
         <Content style={{ padding: '25px 25px' }} className="puzzle-preview">
           <PuzzleGenPNG type={type} options={options} />
@@ -160,6 +161,10 @@ const removeUnecessaryOptions = (type: Type, options?: any): PNGVisualizerOption
 
   if (!options?.puzzle?.arrows || options?.puzzle?.arrows.length === 0) {
     delete displayOptions.puzzle?.arrows;
+  }
+
+  if (options.strokeWidth === .02) {
+    delete displayOptions.strokeWidth;
   }
 
   if (JSON.stringify(displayOptions.puzzle) == "{}") {

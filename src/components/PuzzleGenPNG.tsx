@@ -20,15 +20,19 @@ class PuzzleGenPNG extends React.Component<PuzzleGenProps> {
     // If props are updated too quickly we end up with multiple
     // images in the dom. Debounce render events to prevent this
     this.render$
-      .pipe(debounce(() => interval(100)))
-      .subscribe(() => {
+      .pipe(debounce(() => interval(25)))
+      .subscribe(() => { 
         this.renderPNG();
       });
   }
 
   private renderPNG() {
     this.removeRender();
-    this.puzzleRef.current && PNG(this.puzzleRef.current, this.props.type, this.props.options);
+    try {
+      this.puzzleRef.current && PNG(this.puzzleRef.current, this.props.type, this.props.options);
+    } catch (e) {
+      console.warn("Error rendering puzzle", e);
+    }
   }
 
   private removeRender() {

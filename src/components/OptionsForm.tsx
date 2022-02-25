@@ -12,10 +12,12 @@ import { StickerColors } from '../data/color';
 import { PUZZLE_FACES } from '../data/face';
 import { DEFAULT_ROTATIONS } from '../data/rotations';
 import { DEFAULT_PUZZLE_SIZES } from '../data/size';
+import { algorithmValid } from '../util/algorithms';
 
 type Options = {
   width: number,
   height: number,
+  stroke: number,
   puzzle: Type,
   size: number,
   alg: string,
@@ -49,6 +51,7 @@ export default function OptionsForm(props: OptionsProps) {
   const [options, setOptions] = useState<Options>({
     width: props.initialValues.width || 250,
     height: props.initialValues.height || 250,
+    stroke: !Number.isNaN(props.initialValues.stroke) ? props.initialValues.stroke : .02,
     size: props.initialValues.puzzle?.size || 3,
     puzzle: props.initialType || Type.CUBE,
     alg: props.initialValues.puzzle?.alg || '',
@@ -62,6 +65,9 @@ export default function OptionsForm(props: OptionsProps) {
 
   const [form] = Form.useForm();
   const [masks, setMasks] = useState<{ [mask: string]: Mask }>(getMasks(options.puzzle));
+
+  const [validAlg, setValidAlg] = useState(algorithmValid(options.puzzle, options.alg));
+  const [validCase, setValidCase] = useState(algorithmValid(options.puzzle, options.case));
 
   useEffect(() => {
     onClickApply();
@@ -78,6 +84,10 @@ export default function OptionsForm(props: OptionsProps) {
       newOptions.mask = null;
       form.setFieldsValue({ mask: null });
     }
+
+    setValidAlg(algorithmValid(newOptions.puzzle, newOptions.alg));
+    setValidCase(algorithmValid(newOptions.puzzle, newOptions.case));
+
     setOptions(newOptions);
   }
 
@@ -162,6 +172,7 @@ export default function OptionsForm(props: OptionsProps) {
         initialValues={{
           width: options.width,
           height: options.height,
+          stroke: options.stroke,
           puzzle: options.puzzle,
           size: options.size,
           alg: options.alg,
@@ -175,10 +186,13 @@ export default function OptionsForm(props: OptionsProps) {
         onValuesChange={onFormChange}
       >
         <Form.Item label="width" name="width">
-          <InputNumber />
+          <InputNumber min={1} />
         </Form.Item>
         <Form.Item label="height" name="height">
-          <InputNumber />
+          <InputNumber min={1} />
+        </Form.Item>
+        <Form.Item label="stroke" name="stroke">
+          <InputNumber step=".01" min={-0} />
         </Form.Item>
         <Form.Item label="puzzle" name="puzzle">
           <Select onChange={onPuzzleChange}>
@@ -188,12 +202,12 @@ export default function OptionsForm(props: OptionsProps) {
           </Select>
         </Form.Item>
         <Form.Item hidden={shouldHideSize} label="size" name="size">
-          <InputNumber />
+          <InputNumber min={1} />
         </Form.Item>
-        <Form.Item label="alg" name="alg">
+        <Form.Item label="alg" name="alg" validateStatus={!validAlg.valid ? "error" : ""} help={validAlg.errorMessage} hasFeedback={!validAlg.valid}>
           <Input.TextArea />
         </Form.Item>
-        <Form.Item label="case" name="case">
+        <Form.Item label="case" name="case" validateStatus={!validCase.valid ? "error" : ""} help={validCase.errorMessage} hasFeedback={!validCase.valid}>
           <Input.TextArea />
         </Form.Item>
         <Form.Item label="scheme" name="scheme" hidden={true}>
