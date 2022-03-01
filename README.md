@@ -1,6 +1,13 @@
 # PuzzleGen Demonstration
 See the app in action [HERE](https://tdecker91.github.io/puzzlegen-demo/)
 
+# Development
+> Requirements
+>
+> - [Node.js](nodejs.org) - v14.18.1
+
+Run `nvm install` then `nvm use` to use the version of node specified in `.nvmrc`. 
+
 ## Available Scripts
 
 In the project directory, you can run:
