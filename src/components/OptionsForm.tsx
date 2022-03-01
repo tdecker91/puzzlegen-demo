@@ -64,7 +64,7 @@ export default function OptionsForm(props: OptionsProps) {
   })
 
   const [form] = Form.useForm();
-  const [masks, setMasks] = useState<{ [mask: string]: Mask }>(getMasks(options.puzzle));
+  const [masks, setMasks] = useState<{ [mask: string]: Mask }>(getMasks(options.size, options.puzzle));
 
   const [validAlg, setValidAlg] = useState(algorithmValid(options.puzzle, options.alg));
   const [validCase, setValidCase] = useState(algorithmValid(options.puzzle, options.case));
@@ -78,7 +78,7 @@ export default function OptionsForm(props: OptionsProps) {
       ...options,
       ...changes
     };
-    const newMasks = getMasks(newOptions.puzzle);
+    const newMasks = getMasks(newOptions.size, newOptions.puzzle);
     setMasks(newMasks);
     if (!newMasks[newOptions.mask]) {
       newOptions.mask = null;
@@ -98,7 +98,7 @@ export default function OptionsForm(props: OptionsProps) {
   }
 
   const onSaveMask = (mask: any) => {
-    const newMasks = getMasks(options.puzzle);
+    const newMasks = getMasks(options.size, options.puzzle);
     newMasks["CUSTOM"] = mask;
     setMasks(newMasks);
     setCustomMask(mask);
@@ -141,6 +141,8 @@ export default function OptionsForm(props: OptionsProps) {
   const onPuzzleChange = (value: Type) => {
     setScheme(DEFAULT_SCHEMES[value]);
     setCustomMask(DEFAULT_MASK[value]);
+    const puzzleFaceColors = PUZZLE_FACES[value].reduce((prev, curr) => ({ ...prev, [curr]: [] }), {})
+    setStickerColors(puzzleFaceColors);
 
     form.setFieldsValue({
       X: DEFAULT_ROTATIONS[value].x,
@@ -224,13 +226,13 @@ export default function OptionsForm(props: OptionsProps) {
           </Select>
         </Form.Item>
         <Form.Item label="X" name="X">
-          <InputNumber />
+          <InputNumber step={5} />
         </Form.Item>
         <Form.Item label="Y" name="Y">
-          <InputNumber />
+          <InputNumber step={5} />
         </Form.Item>
         <Form.Item label="Z" name="Z">
-          <InputNumber />
+          <InputNumber step={5} />
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 5 }}>
           <Button onClick={() => setShowSchemeForm(true)}>Set Scheme</Button>
