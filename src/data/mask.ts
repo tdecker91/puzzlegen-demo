@@ -33,16 +33,16 @@ export const DEFAULT_MASK: DefaultMasks =
       [type as Type]: faces
     }), {} as DefaultMasks);
 
-export function getMasks(puzzle: Type): { [mask: string]: any } {
+export function getMasks(size: number, puzzle: Type): { [mask: string]: any } {
   switch(puzzle) {
     case Type.CUBE:
     case Type.CUBE_NET:
     case Type.CUBE_TOP:
-      return Masks.CUBE_3;
+      return size === 3 ? Masks.CUBE_3 : {};
     case Type.MEGAMINX:
     case Type.MEGAMINX_NET:
     case Type.MEGAMINX_TOP:
-      return Masks.MEGA_3;
+      return size === 2 ? Masks.MEGA_3 : {};
     default:
       return {};
   }

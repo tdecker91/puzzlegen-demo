@@ -17,6 +17,7 @@ export function algorithmValid(type: Type, alg: string): { valid: boolean, error
   } catch (e) {
     let message = "invalid algorithm"
     if (e instanceof Error) message = e.message;
+    if (typeof e === "string") message = e;
     return {
       valid: false,
       errorMessage: message
