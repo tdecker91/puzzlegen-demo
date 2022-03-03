@@ -1,30 +1,30 @@
 {
   "files": {
     "main.css": "/puzzlegen-demo/static/css/main.eec92b2f.chunk.css",
-    "main.js": "/puzzlegen-demo/static/js/main.af8e3c2d.chunk.js",
-    "main.js.map": "/puzzlegen-demo/static/js/main.af8e3c2d.chunk.js.map",
-    "react-syntax-highlighter_languages_refractor_javascript.js": "/puzzlegen-demo/static/js/react-syntax-highlighter_languages_refractor_javascript.cab8d6f8.chunk.js",
-    "react-syntax-highlighter_languages_refractor_javascript.js.map": "/puzzlegen-demo/static/js/react-syntax-highlighter_languages_refractor_javascript.cab8d6f8.chunk.js.map",
-    "runtime-main.js": "/puzzlegen-demo/static/js/runtime-main.6a427509.js",
-    "runtime-main.js.map": "/puzzlegen-demo/static/js/runtime-main.6a427509.js.map",
+    "main.js": "/puzzlegen-demo/static/js/main.770c3bbc.chunk.js",
+    "main.js.map": "/puzzlegen-demo/static/js/main.770c3bbc.chunk.js.map",
+    "react-syntax-highlighter_languages_refractor_javascript.js": "/puzzlegen-demo/static/js/react-syntax-highlighter_languages_refractor_javascript.288d87b6.chunk.js",
+    "react-syntax-highlighter_languages_refractor_javascript.js.map": "/puzzlegen-demo/static/js/react-syntax-highlighter_languages_refractor_javascript.288d87b6.chunk.js.map",
+    "runtime-main.js": "/puzzlegen-demo/static/js/runtime-main.0faf16d2.js",
+    "runtime-main.js.map": "/puzzlegen-demo/static/js/runtime-main.0faf16d2.js.map",
     "static/css/153.e128f65a.chunk.css": "/puzzlegen-demo/static/css/153.e128f65a.chunk.css",
-    "static/js/153.d19ef5e8.chunk.js": "/puzzlegen-demo/static/js/153.d19ef5e8.chunk.js",
-    "static/js/153.d19ef5e8.chunk.js.map": "/puzzlegen-demo/static/js/153.d19ef5e8.chunk.js.map",
-    "static/js/154.8784f870.chunk.js": "/puzzlegen-demo/static/js/154.8784f870.chunk.js",
-    "static/js/154.8784f870.chunk.js.map": "/puzzlegen-demo/static/js/154.8784f870.chunk.js.map",
-    "static/js/155.deb9e7d5.chunk.js": "/puzzlegen-demo/static/js/155.deb9e7d5.chunk.js",
-    "static/js/155.deb9e7d5.chunk.js.map": "/puzzlegen-demo/static/js/155.deb9e7d5.chunk.js.map",
+    "static/js/153.19569008.chunk.js": "/puzzlegen-demo/static/js/153.19569008.chunk.js",
+    "static/js/153.19569008.chunk.js.map": "/puzzlegen-demo/static/js/153.19569008.chunk.js.map",
+    "static/js/154.ca15ad37.chunk.js": "/puzzlegen-demo/static/js/154.ca15ad37.chunk.js",
+    "static/js/154.ca15ad37.chunk.js.map": "/puzzlegen-demo/static/js/154.ca15ad37.chunk.js.map",
+    "static/js/155.b7826b0d.chunk.js": "/puzzlegen-demo/static/js/155.b7826b0d.chunk.js",
+    "static/js/155.b7826b0d.chunk.js.map": "/puzzlegen-demo/static/js/155.b7826b0d.chunk.js.map",
     "index.html": "/puzzlegen-demo/index.html",
     "static/css/153.e128f65a.chunk.css.map": "/puzzlegen-demo/static/css/153.e128f65a.chunk.css.map",
     "static/css/main.eec92b2f.chunk.css.map": "/puzzlegen-demo/static/css/main.eec92b2f.chunk.css.map",
-    "static/js/153.d19ef5e8.chunk.js.LICENSE.txt": "/puzzlegen-demo/static/js/153.d19ef5e8.chunk.js.LICENSE.txt",
+    "static/js/153.19569008.chunk.js.LICENSE.txt": "/puzzlegen-demo/static/js/153.19569008.chunk.js.LICENSE.txt",
     "static/media/logo.ba4349ff.svg": "/puzzlegen-demo/static/media/logo.ba4349ff.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.6a427509.js",
+    "static/js/runtime-main.0faf16d2.js",
     "static/css/153.e128f65a.chunk.css",
-    "static/js/153.d19ef5e8.chunk.js",
+    "static/js/153.19569008.chunk.js",
     "static/css/main.eec92b2f.chunk.css",
-    "static/js/main.af8e3c2d.chunk.js"
+    "static/js/main.770c3bbc.chunk.js"
   ]
 }
