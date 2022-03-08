@@ -21,7 +21,7 @@ export default function StickersForm(props: StickersFormProps) {
   const [form] = Form.useForm();
 
   const [options, setOptions] = useState<{ value: string }[]>([]);
-  const [faces, setFaces] = useState(Object.keys(props.stickerColors));
+  const [faces] = useState(Object.keys(props.stickerColors));
   const [faceColors, setFaceColors] = useState(props.stickerColors);
 
   const onSearch = (searchText: string) => {

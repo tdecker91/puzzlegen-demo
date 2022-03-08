@@ -12,7 +12,7 @@ import { DEFAULT_PUZZLE_SIZES } from './data/size';
 import { MenuOutlined } from "@ant-design/icons";
 import { DEFAULT_MASK } from './data/mask';
 
-const { Title } = Typography;
+const { Title, Text, Link } = Typography;
 
 const { Header, Content, Sider } = Layout;
 
@@ -109,12 +109,15 @@ function App() {
       </Header>
       <Layout>
         {width < breakpoint ? drawer : sider}
-        <Content style={{ padding: '25px 25px' }} className="puzzle-preview">
-          <PuzzleGenPNG type={type} options={options} />
-          <Content style={{ padding: '25px 0px' }}>
+        <Layout>
+          <Text style={{ marginLeft: '30px', height: '30px', lineHeight: '30px' }}>
+            View on <Link href="https://github.com/tdecker91/puzzle-gen" target="_blank">GitHub!</Link>
+          </Text>
+          <Content style={{ padding: '25px 25px' }} className="puzzle-preview">
+            <PuzzleGenPNG type={type} options={options} />
             <ExampleCode type={type} options={options}></ExampleCode>
           </Content>
-        </Content>
+        </Layout>
       </Layout>
     </Layout>
   );
@@ -130,7 +133,7 @@ const removeUnecessaryOptions = (type: Type, options?: any): PNGVisualizerOption
   }
 
   if (Array.isArray(options?.puzzle?.rotations)
-    && options?.puzzle?.rotations.length == 1
+    && options?.puzzle?.rotations.length === 1
     && JSON.stringify(DEFAULT_ROTATIONS[type]) === JSON.stringify(options?.puzzle?.rotations[0])) {
     delete displayOptions.puzzle?.rotations
   }
@@ -151,11 +154,11 @@ const removeUnecessaryOptions = (type: Type, options?: any): PNGVisualizerOption
     delete displayOptions.puzzle?.stickerColors;
   }
 
-  if (type == Type.SQUARE1
-    || type == Type.SQUARE1_NET
-    || type == Type.SKEWB
-    || type == Type.SKEWB_NET
-    || displayOptions.puzzle?.size == DEFAULT_PUZZLE_SIZES[type]) {
+  if (type === Type.SQUARE1
+    || type === Type.SQUARE1_NET
+    || type === Type.SKEWB
+    || type === Type.SKEWB_NET
+    || displayOptions.puzzle?.size === DEFAULT_PUZZLE_SIZES[type]) {
     delete displayOptions.puzzle?.size;
   }
 
@@ -167,7 +170,7 @@ const removeUnecessaryOptions = (type: Type, options?: any): PNGVisualizerOption
     delete displayOptions.strokeWidth;
   }
 
-  if (JSON.stringify(displayOptions.puzzle) == "{}") {
+  if (JSON.stringify(displayOptions.puzzle) === "{}") {
     delete displayOptions.puzzle;
   }
 
