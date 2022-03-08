@@ -55,7 +55,7 @@ export default function ArrowsForm(props: ArrowsFormProps) {
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 12 }}
       >
-        <Form.Item wrapperCol={{ offset: 4 }} hidden={!arrows || arrows.length == 0}>
+        <Form.Item wrapperCol={{ offset: 4 }} hidden={!arrows || arrows.length === 0}>
           {arrows.map((arrow, index) => (
             <Tag
               closable

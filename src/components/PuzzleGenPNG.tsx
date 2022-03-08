@@ -43,7 +43,7 @@ class PuzzleGenPNG extends React.Component<PuzzleGenProps> {
 
   componentDidMount() {
     if (this.puzzleRef.current) {
-      this.render$.next();
+      this.render$.next(null);
     }
   }
 
@@ -54,7 +54,7 @@ class PuzzleGenPNG extends React.Component<PuzzleGenProps> {
       prevProps.type !== this.props.type ||
       prevOptions !== options
     ) {
-      this.render$.next();
+      this.render$.next(null);
     }
   }
 

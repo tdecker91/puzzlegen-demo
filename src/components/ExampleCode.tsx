@@ -14,6 +14,7 @@ class ExampleCode extends React.Component<PuzzleGenProps> {
         text={makePuzzleGenCode(this.props.type, this.props.options)}
         language="javascript"
         theme={vs2015}
+        codeBlock
       />
     )
   }
@@ -44,10 +45,10 @@ const prettyPrintArray = (json: any, indentation: number = 2): string => {
       return JSON.stringify(v);
     return v;
   }, indentation).replace(/\\/g, '')
-    .replace(/\"\[/g, '[')
-    .replace(/\]\"/g, ']')
-    .replace(/\"\{/g, '{')
-    .replace(/\}\"/g, '}');
+    .replace(/"\[/g, '[')
+    .replace(/\]"/g, ']')
+    .replace(/"\{/g, '{')
+    .replace(/\}"/g, '}');
 
   return output;
 }

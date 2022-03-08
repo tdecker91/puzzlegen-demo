@@ -1,4 +1,3 @@
-import { Face } from './face';
 import { IColor } from "sr-puzzlegen/dist/lib/geometry/color";
 import { Colors } from "sr-puzzlegen";
 

@@ -13,10 +13,11 @@
 }
 
 .puzzle-preview {
-  margin: 30px;
+  margin: 0px 30px 30px 30px;
   background: white;
 }
 
 .img-wrap img {
   border: 1px solid rgb(230, 230, 230);
+  margin-bottom: 25px;
 }

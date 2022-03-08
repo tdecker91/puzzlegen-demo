@@ -1,5 +1,3 @@
-import { Divider, Input } from "antd";
-
 type SelectEditCustomItemProps = {
   onEditCustom: () => void
 }
@@ -7,12 +5,12 @@ type SelectEditCustomItemProps = {
 export default function SelectEditCustomItem(props: SelectEditCustomItemProps) {
   return (
     <div style={{ display: 'flex', flexWrap: 'nowrap', padding: 8 }}>
-      <a
-        style={{ flex: 'none', padding: '8px', display: 'block', cursor: 'pointer' }}
+      <span
+        style={{ flex: 'none', padding: '8px', display: 'block', cursor: 'pointer', color: 'blue' }}
         onClick={props.onEditCustom}
       >
         Edit Custom
-      </a>
+      </span>
     </div>
   );
 }

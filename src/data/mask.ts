@@ -1,4 +1,4 @@
-import { Face, PUZZLE_FACES } from './face';
+import { PUZZLE_FACES } from './face';
 import { Type, Masks } from 'sr-puzzlegen';
 
 export type Mask = {

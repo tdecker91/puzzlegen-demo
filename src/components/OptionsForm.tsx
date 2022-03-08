@@ -69,9 +69,31 @@ export default function OptionsForm(props: OptionsProps) {
   const [validAlg, setValidAlg] = useState(algorithmValid(options.puzzle, options.alg));
   const [validCase, setValidCase] = useState(algorithmValid(options.puzzle, options.case));
 
+  const onClickApply = () => {
+    const trimmedColors: any = {}
+    Object.keys(stickerColors).forEach(face => {
+      if (stickerColors[face].length > 0) {
+        trimmedColors[face] = stickerColors[face];
+      }
+    })
+
+    const selectedMaskName = form.getFieldValue("mask");
+    const maskValue = selectedMaskName === "CUSTOM"
+      ? customMask
+      : masks[selectedMaskName];
+
+    props.onApply({
+      ...options,
+      scheme,
+      stickerColors: Object.keys(trimmedColors).length > 0 ? trimmedColors : null,
+      mask: maskValue,
+      arrows
+    });
+  }
+
   useEffect(() => {
     onClickApply();
-  }, [stickerColors, scheme, customMask, arrows, options])
+  }, [stickerColors, scheme, customMask, arrows, options]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const onFormChange = (changes: any) => {
     let newOptions = {
@@ -116,28 +138,6 @@ export default function OptionsForm(props: OptionsProps) {
     setShowArrowsForm(false);
   }
 
-  const onClickApply = () => {
-    const trimmedColors: any = {}
-    Object.keys(stickerColors).forEach(face => {
-      if (stickerColors[face].length > 0) {
-        trimmedColors[face] = stickerColors[face];
-      }
-    })
-
-    const selectedMaskName = form.getFieldValue("mask");
-    const maskValue = selectedMaskName === "CUSTOM"
-      ? customMask
-      : masks[selectedMaskName];
-
-    props.onApply({
-      ...options,
-      scheme,
-      stickerColors: Object.keys(trimmedColors).length > 0 ? trimmedColors : null,
-      mask: maskValue,
-      arrows
-    });
-  }
-
   const onPuzzleChange = (value: Type) => {
     setScheme(DEFAULT_SCHEMES[value]);
     setCustomMask(DEFAULT_MASK[value]);
@@ -160,10 +160,10 @@ export default function OptionsForm(props: OptionsProps) {
     })
   }
 
-  const shouldHideSize = options.puzzle == Type.SQUARE1
-    || options.puzzle == Type.SQUARE1_NET
-    || options.puzzle == Type.SKEWB
-    || options.puzzle == Type.SKEWB_NET;
+  const shouldHideSize = options.puzzle === Type.SQUARE1
+    || options.puzzle === Type.SQUARE1_NET
+    || options.puzzle === Type.SKEWB
+    || options.puzzle === Type.SKEWB_NET;
 
   return (
     <>
